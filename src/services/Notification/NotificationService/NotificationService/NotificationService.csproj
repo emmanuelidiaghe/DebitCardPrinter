@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>6b5ca349-fa2d-457a-9ee8-e8974e786f2b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Google.Apis.Gmail.v1" Version="1.57.0.2650" />
+    <PackageReference Include="SendGrid" Version="9.28.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Google.Apis.Gmail.v1" />
+    <None Remove="SendGrid" />
+    <None Remove="Notification.Application\" />
+    <None Remove="Notification.Domain\" />
+    <None Remove="Notification.Infrastructure\" />
+    <None Remove="Notification.Application\Controllers\" />
+    <None Remove="Notification.Domain\Entities\" />
+    <None Remove="Notification.Domain\Entities\SendEmail\" />
+    <None Remove="Notification.Domain\Repository\" />
+    <None Remove="Notification.Infrastructure\RepositoryImpl\" />
+    <None Remove="Notification.Domain\Entities\EmailBody\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Notification.Application\" />
+    <Folder Include="Notification.Domain\" />
+    <Folder Include="Notification.Infrastructure\" />
+    <Folder Include="Notification.Application\Controllers\" />
+    <Folder Include="Notification.Domain\Entities\" />
+    <Folder Include="Notification.Domain\Entities\SendEmail\" />
+    <Folder Include="Notification.Domain\Repository\" />
+    <Folder Include="Notification.Infrastructure\RepositoryImpl\" />
+    <Folder Include="Notification.Domain\Entities\EmailBody\" />
+  </ItemGroup>
+</Project>

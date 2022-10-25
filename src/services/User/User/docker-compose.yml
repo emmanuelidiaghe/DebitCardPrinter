@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  user:
+    image: ${DOCKER_REGISTRY-}emancipator/user
+    build:
+      context: .
+      dockerfile: User/Dockerfile

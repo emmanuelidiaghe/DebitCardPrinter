@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1700.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\NotificationService.csproj", "{BE37FE63-9A40-434B-A71D-BD4FC2CC43BB}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EA6EF246-C178-47FB-82B9-936B407CA813}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE37FE63-9A40-434B-A71D-BD4FC2CC43BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE37FE63-9A40-434B-A71D-BD4FC2CC43BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE37FE63-9A40-434B-A71D-BD4FC2CC43BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE37FE63-9A40-434B-A71D-BD4FC2CC43BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA6EF246-C178-47FB-82B9-936B407CA813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6EF246-C178-47FB-82B9-936B407CA813}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6EF246-C178-47FB-82B9-936B407CA813}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6EF246-C178-47FB-82B9-936B407CA813}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE6D6C58-4EEA-498D-B99F-8A8A32FF5E48}
+	EndGlobalSection
+EndGlobal
