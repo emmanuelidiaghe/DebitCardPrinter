@@ -6,31 +6,21 @@ namespace NotificationService.Notification.Domain.Entities.EmailBody
     public class EmailBody
     {
         private readonly string pattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-        //private IWebHostEnvironment _hostEnvironment;
 
-        //public EmailBody(IWebHostEnvironment webHostEnvironment)
-        //{
-        //    _hostEnvironment = webHostEnvironment;
-        //}
-
-        public string SetEmailBody()
+        public string SetEmailBody(string message)
         {
-
-            //string path = Path.Combine(_hostEnvironment.ContentRootPath, "Notification.Domain/Entities/EmailBody/providus.html");
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "Notification.Domain/Entities/EmailBody/providus.html");
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "providus.html");
             StreamReader reader = new(path); 
 
             string readFile = reader.ReadToEnd();
             string myString = readFile;
 
-            //myString = myString.Replace("", "");
-            //myString = myString.Replace("", "");
-            //myString = myString.Replace("", "");
+            myString = myString.Replace("textToBeReplaced", message);
 
             return myString;
         }
 
-        public bool ValidateAddress(List<EmailAddress> addresses)
+        public bool IsValidEmail(List<EmailAddress> addresses)
         {
             int count = 0; bool[] result = new bool[addresses.Count];
             addresses.ForEach(item => result[count++] = Regex.IsMatch(item.Email, pattern));
