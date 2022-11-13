@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using User.User.Domain.Entities.Login;
 using User.User.Domain.Repositories;
@@ -16,10 +15,6 @@ namespace User.Controllers
             _login = login;
         }
 
-        //private IActionResult Badrequest<T>(T obj) => Content(HttpStatusCode.BadRequest.ToString(), obj);
-
-        //private IActionResult Unauthorized<T>(T obj) => Content(HttpStatusCode.BadRequest.ToString(), obj);
-
         [HttpPost, Route("[controller]/Login")]
         [ProducesResponseType(typeof(LoginResponse), (int)HttpStatusCode.OK)]
         public IActionResult Login([FromBody] LoginRequest login)
@@ -27,23 +22,28 @@ namespace User.Controllers
             try
             {
                 var LoginResult = _login.UserLogin(login);
+                if(!string.IsNullOrEmpty(LoginResult.ResponseCode))
+                {
+                    return LoginResult.ResponseCode[..4] switch
+                    {
+                        "E000" => Ok(new LoginResponse { isSuccessful = true, ErrorCode = LoginResult.ResponseCode[..4], StatusMessage = "Successful Login", DevMessage = "", Data = LoginResult.Response }), //successful login
+                        "E100" => BadRequest(new LoginResponse { isSuccessful = false, ErrorCode = LoginResult.ResponseCode[..4], StatusMessage = "Username must be a valid email address", DevMessage = "", Data = null }), //invalid email address
+                        "E200" => Unauthorized(new LoginResponse { isSuccessful = false, ErrorCode = LoginResult.ResponseCode[..4], StatusMessage = "Wrong username/password", DevMessage = "", Data = null }), //wrong username or password
+                        "E300" => BadRequest(new LoginResponse { isSuccessful = false, ErrorCode = LoginResult.ResponseCode[..4], StatusMessage = "Cannot authenticate at this time. Please try again later", DevMessage = "", Data = null }), //uncaught exception
+                        "E400" => BadRequest(new LoginResponse { isSuccessful = false, ErrorCode = LoginResult.ResponseCode[..4], StatusMessage = "Cannot authenticate at this time. Please try again later", DevMessage = LoginResult.ResponseCode[4..], Data = null }), //uncaught exception
+                        "E500" => BadRequest(new LoginResponse { isSuccessful = false, ErrorCode = LoginResult.ResponseCode[..4], StatusMessage = "Cannot authenticate at this time. Please try again later", DevMessage = "", Data = null }),//uncaught exception
+                        _ => BadRequest(new LoginResponse { isSuccessful = false, ErrorCode = LoginResult.ResponseCode[..4], StatusMessage = "Cannot authenticate at this time. Please try again later", DevMessage = "", Data = null })//uncaught exception
+                    };
+                }
 
-                if(LoginResult.isSuccessful && LoginResult.ErrorCode == "E000") return Ok(LoginResult);
-
-                if(!LoginResult.isSuccessful && LoginResult.ErrorCode == "E100") return BadRequest(LoginResult);
-
-                if(!LoginResult.isSuccessful && LoginResult.ErrorCode == "E200") return Unauthorized(LoginResult);
-
-                if(!LoginResult.isSuccessful && LoginResult.ErrorCode == "E400") return BadRequest(LoginResult);
-
-                return Unauthorized(LoginResult);
+                return Unauthorized(new LoginResponse { isSuccessful = false, ErrorCode = "E400", StatusMessage = "Cannot authenticate at this time. Please try again later", DevMessage = "", Data = null });//uncaught exception
             }
+
             catch (Exception ex)
             {
                 //logger.Error(ex, ex.Message, ex.StackTrace);
-                return BadRequest(new LoginResponse { Data = null, DevMessage = ex.Message, ErrorCode = "E400", StatusMessage = "Unable to login, please try again"});
+                return BadRequest(new LoginResponse {isSuccessful = false, Data = null, DevMessage = ex.Message, ErrorCode = "E400", StatusMessage = "Cannot authenticate at this time. Please try again later" });
             }
         }
     }
 }
-

@@ -16,7 +16,7 @@ namespace User.User.Infrastructure.RepositoriesImpl
             _config = configuration1;
         }
 
-        public LoginResponse UserLogin(LoginRequest login)
+        public LoginUtilityResponse UserLogin(LoginRequest login)
         {
             try
             {
@@ -61,16 +61,16 @@ namespace User.User.Infrastructure.RepositoriesImpl
                 var responseStr = postTask.Content.ReadAsStringAsync().Result;
                 var response = JsonConvert.DeserializeObject<AzureADResponse>(responseStr);
 
-                if(postTask.IsSuccessStatusCode) if(!string.IsNullOrEmpty(login.Username)) if(Regex.IsMatch(login.Username, pattern)) return new LoginResponse { isSuccessful = true, ErrorCode = "E000", StatusMessage = "Successful login", DevMessage = "", Data = response };
+                if (postTask.IsSuccessStatusCode) if (!string.IsNullOrEmpty(login.Username)) if (Regex.IsMatch(login.Username, pattern)) return new LoginUtilityResponse { ResponseCode = "E000", Response = response };
+                if (!string.IsNullOrEmpty(login.Username)) if (!Regex.IsMatch(login.Username, pattern, RegexOptions.IgnoreCase)) return new LoginUtilityResponse { ResponseCode = "E100", Response = null };
+                if (!postTask.IsSuccessStatusCode) if (!string.IsNullOrEmpty(login.Username)) if (Regex.IsMatch(login.Username, pattern, RegexOptions.IgnoreCase)) return new LoginUtilityResponse { ResponseCode = "E200", Response = null };
 
-                if(!string.IsNullOrEmpty(login.Username)) if(!Regex.IsMatch(login.Username, pattern, RegexOptions.IgnoreCase)) return new LoginResponse { isSuccessful = false, ErrorCode = "E100", StatusMessage = "Username must be a valid email address", DevMessage = "", Data = response };
-
-                return new LoginResponse { isSuccessful = false, ErrorCode = "E200", StatusMessage = "Wrong username/password", DevMessage = "", Data = response };
+                return new LoginUtilityResponse { ResponseCode = "E400" + " Status Code ==>" + postTask.StatusCode + " Content ==>" + postTask.Content, Response = null };
             }
             catch (Exception ex)
             {
                 //logger.Error(ex, ex.Message, ex.StackTrace);
-                return new LoginResponse { isSuccessful = false, ErrorCode = "E400", StatusMessage = "Cannot authenticate at this time. Please try again later", DevMessage = ex.Message, Data = null };
+                return new LoginUtilityResponse { ResponseCode = "E400" + " " + ex.Message, Response = null };
             }
         }
     }

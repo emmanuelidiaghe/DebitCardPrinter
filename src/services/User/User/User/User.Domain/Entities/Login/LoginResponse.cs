@@ -17,6 +17,12 @@ namespace User.User.Domain.Entities.Login
         public AzureADResponse? Data { get; set; }
     }
 
+    public class LoginUtilityResponse
+    {
+        public string? ResponseCode { get; set; }
+        public AzureADResponse? Response { get; set; }
+    }
+
     public class AzureADResponse
     {
         [JsonProperty("token_type")]

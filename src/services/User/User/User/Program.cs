@@ -34,7 +34,7 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 //app.UseHttpsRedirection();
 
-//app.UseCors(policy => policy.AllowAnyMethod().AllowCredentials().WithHeaders().AllowAnyHeader().AllowAnyOrigin().WithOrigins("https://localhost:7015"));
+app.UseCors(policy => policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
 
 app.UseAuthentication();
 app.UseAuthorization();

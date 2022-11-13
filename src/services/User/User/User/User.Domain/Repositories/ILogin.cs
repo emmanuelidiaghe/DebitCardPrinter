@@ -4,7 +4,7 @@ namespace User.User.Domain.Repositories
 {
     public interface ILogin
     {
-        public LoginResponse UserLogin(LoginRequest login);
+        public LoginUtilityResponse UserLogin(LoginRequest login);
     }
 }
 
